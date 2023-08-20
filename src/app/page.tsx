@@ -22,7 +22,7 @@ const Home = () => {
           className="max-w-full h-auto"
           onDoubleClick={e => {e.currentTarget.style.transform = 'scale(2)'}}
         /> */}
-          <CanvasMap />
+          <CanvasMap imgSrc="https://www.nhc.noaa.gov/xgtwo/two_atl_7d0.png" />
         </div>
       </div>
     </div>

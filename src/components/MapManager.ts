@@ -91,7 +91,7 @@ export class MapManager {
         y: (newCenter.y - stage.y()) / stage.scaleX(),
       };
 
-      var scale = stage.scaleX() * (dist / lastDist);
+      var scale = stage.scaleX() * (dist / this.lastDist);
 
       stage.scaleX(scale);
       stage.scaleY(scale);
