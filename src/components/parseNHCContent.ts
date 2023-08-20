@@ -59,5 +59,5 @@ export async function parseNHCContent() {
 
 function getCacheTime() {
   const currentTime = DateTime.local().setZone('America/New_York');
-  return (60 - currentTime.minute) * 60;
+  return Math.max(60 - (currentTime.minute + 2), 1) * 60;
 }

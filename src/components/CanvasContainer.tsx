@@ -28,7 +28,7 @@ export const CanvasContainer = ({
         imgSrc={imgSrc}
       />
 
-      <div className="text-center mt-4 pb-4 mx-2">
+      <div className="text-center mt-4 pb-4 mx-2 md:mx-8">
         <h2 className="mb-2 font-bold">{content[0]}</h2>
         <div className="text-left text-sm whitespace-pre-line">
           {content[1]}
