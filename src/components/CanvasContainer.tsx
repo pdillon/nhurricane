@@ -1,7 +1,9 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-// @ts-ignore
+import type { ContentResponse } from '@/types';
+import React from 'react';
+
 const CanvasMap = dynamic(() => import('../components/CanvasMap'), {
   ssr: false,
 });
@@ -9,9 +11,28 @@ const CanvasMap = dynamic(() => import('../components/CanvasMap'), {
 export const CanvasContainer = ({
   imgSrc,
   areas,
+  descriptions,
 }: {
   imgSrc: string;
-  areas: { type: string; coords: string }[];
+  areas: ContentResponse['areas'];
+  descriptions: ContentResponse['descriptions'];
 }) => {
-  return <CanvasMap areas={areas} imgSrc={imgSrc} />;
+  const [content, setContent] = React.useState<string[]>([]);
+  return (
+    <div className="flex flex-col">
+      <div className="mt-4 p-2 mx-auto max-w-full h-auto overflow-scroll cursor-move">
+        <CanvasMap
+          onCanvasClick={({ id }) => {
+            setContent(descriptions.find((d) => d.id === id)?.content || []);
+          }}
+          areas={areas}
+          imgSrc={imgSrc}
+        />
+      </div>
+      <div className="text-center mx-4">
+        <h2 className="mb-2 text-xl">{content[0]}</h2>
+        <div className="text-left whitespace-pre">{content[1]}</div>
+      </div>
+    </div>
+  );
 };

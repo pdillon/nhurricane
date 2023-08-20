@@ -1,5 +1,6 @@
 import Konva from 'konva';
 import { KonvaEventObject } from 'konva/lib/Node';
+import type { Area } from '@/types/Area';
 
 interface Point {
   x: number;
@@ -13,7 +14,8 @@ export class MapManager {
   image: HTMLImageElement;
   lastCenter: null | Point = null;
   lastDist = 0;
-  areas: { type: string; coords: string }[];
+  areas: Area[];
+  onAreaClick?: ({ id }: { id: number }) => void;
 
   constructor({
     containerEl,
@@ -42,23 +44,30 @@ export class MapManager {
   }
 
   loadCanvasImage = () => {
+    const imageHeight = this.image.naturalHeight - 64 * 2;
+
     this.layerImg = new Konva.Image({
       x: 0,
       y: 0,
       width: this.image.naturalWidth,
-      height: this.image.naturalHeight - 64 * 2,
+      height: imageHeight,
       image: this.image,
     });
+
     this.layerImg.crop({
       x: 0,
       y: 64,
-      height: this.image.naturalHeight - 64 * 2,
+      height: imageHeight,
       width: this.image.naturalWidth,
     });
     this.layer.add(this.layerImg);
 
     if (this.image.naturalWidth < window.innerWidth) {
       this.stage.width(this.image.naturalWidth);
+    }
+
+    if (imageHeight < window.innerHeight) {
+      this.stage.height(imageHeight);
     }
 
     if (this.image.naturalWidth > window.innerWidth) {
@@ -70,18 +79,42 @@ export class MapManager {
   };
 
   addShapes() {
-    this.areas.forEach((area) => {
-      const poly = new Konva.Line({
-        points: area.coords.split(',').map((v) => Number(v)),
-        //   fill: '#00D2FF',
-        stroke: 'purple',
+    this.areas.forEach(({ id, shape, coords }) => {
+      if (shape === 'poly') {
+        const poly = new Konva.Line({
+          id,
+          points: coords,
+          offsetY: 64,
+          closed: true,
+        });
 
-        offsetY: 64,
-        strokeWidth: 5,
-        closed: true,
-      });
+        poly.on('tap click', (el) => {
+          if (this.onAreaClick) {
+            this.onAreaClick({ id: Number(el.target.id()) });
+          }
+        });
 
-      this.stage.getLayers()[0].add(poly);
+        this.layer.add(poly);
+      }
+      if (shape === 'circle') {
+        const circle = new Konva.Circle({
+          id,
+          x: coords[0],
+          y: coords[1],
+          radius: coords[2],
+          //   stroke: 'purple',
+          offsetY: 64,
+          //   strokeWidth: 5,
+        });
+
+        circle.on('tap click', (el) => {
+          if (this.onAreaClick) {
+            this.onAreaClick({ id: Number(el.target.id()) });
+          }
+        });
+
+        this.layer.add(circle);
+      }
     });
   }
 

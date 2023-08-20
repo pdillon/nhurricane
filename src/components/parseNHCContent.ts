@@ -1,8 +1,11 @@
 import { parse } from 'node-html-parser';
+import { DateTime } from 'luxon';
+import type { ContentResponse } from '@/types/ContentResponse';
 
 export async function parseNHCContent() {
   const res = await fetch(
     'https://www.nhc.noaa.gov/gtwo.php?basin=atlc&fdays=7',
+    { next: { revalidate: getCacheTime() } },
   );
 
   if (!res.ok) {
@@ -12,16 +15,44 @@ export async function parseNHCContent() {
 
   const html = await res.text();
   const root = parse(html);
+  const areaEls = root.querySelector('map')?.querySelectorAll('area');
 
-  const areas = root
-    .querySelector('map')
-    ?.querySelectorAll('area')
-    .map((a) => {
-      return {
-        shape: a.getAttribute('shape'),
-        coords: a.getAttribute('coords'),
-      };
-    });
-  console.log(JSON.stringify(areas, null, 2));
-  return areas;
+  const descriptionEl = Array.from(root.querySelectorAll('script')).find((el) =>
+    el.innerHTML.includes('Text'),
+  );
+
+  let descriptions = [];
+
+  if (descriptionEl) {
+    descriptions = descriptionEl.innerHTML
+      .match(/Text\[[0-9]\]=(.*)\]/g)
+      ?.map((s) =>
+        s.replace(/Text\[([0-9])\]=/, (_, v) => `{"id":${v},"content":`),
+      )
+      .map((s) => `${s}}`)
+      .map((s) => s.replace(/'/g, '"'))
+      .map((s) => s.replace(/<(\/)?b>/g, ''))
+      .map((s) => s.replace(/<br>/g, '\\n'))
+      .map((s) => {
+        return JSON.parse(s);
+      }) as any[];
+  }
+
+  const areas = areaEls?.map((a) => {
+    return {
+      id: a.getAttribute('onmouseover')?.match(/[0-9]/)?.[0],
+      shape: a.getAttribute('shape'),
+      coords: a
+        .getAttribute('coords')
+        ?.split(',')
+        .map((v) => Number(v)),
+    };
+  }) as ContentResponse['areas'];
+
+  return { descriptions, areas } as ContentResponse;
+}
+
+function getCacheTime() {
+  const currentTime = DateTime.local().setZone('America/New_York');
+  return (60 - currentTime.minute) * 60;
 }

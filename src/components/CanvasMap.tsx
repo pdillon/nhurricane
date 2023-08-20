@@ -2,15 +2,17 @@
 
 import React from 'react';
 import { MapManager } from './MapManager';
+import type { ContentResponse } from '@/types';
 
 const CanvasMap = ({
   imgSrc,
   areas,
+  onCanvasClick,
 }: {
   imgSrc: string;
-  areas: { type: string; coords: string }[];
+  areas: ContentResponse['areas'];
+  onCanvasClick: (options: { id: number }) => void;
 }) => {
-  //   const containerRef = React.useRef<HTMLDivElement>(null);
   const mapManager = React.useRef<MapManager>();
 
   React.useEffect(() => {
@@ -19,9 +21,11 @@ const CanvasMap = ({
       imgUrl: imgSrc,
       areas,
     });
+
+    mapManager.current.onAreaClick = onCanvasClick;
   }, []);
 
-  return <div id="container"></div>;
+  return <div id="container" />;
 };
 
 export default CanvasMap;
