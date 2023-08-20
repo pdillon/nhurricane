@@ -3,15 +3,21 @@
 import React from 'react';
 import { MapManager } from './MapManager';
 
-const CanvasMap = ({ imgSrc }: { imgSrc: string }) => {
+const CanvasMap = ({
+  imgSrc,
+  areas,
+}: {
+  imgSrc: string;
+  areas: { type: string; coords: string }[];
+}) => {
   //   const containerRef = React.useRef<HTMLDivElement>(null);
   const mapManager = React.useRef<MapManager>();
 
   React.useEffect(() => {
-    console.log('test');
     mapManager.current = new MapManager({
       containerEl: 'container',
-      imgUrl: 'https://www.nhc.noaa.gov/xgtwo/two_atl_7d0.png',
+      imgUrl: imgSrc,
+      areas,
     });
   }, []);
 

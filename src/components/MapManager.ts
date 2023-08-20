@@ -13,13 +13,16 @@ export class MapManager {
   image: HTMLImageElement;
   lastCenter: null | Point = null;
   lastDist = 0;
+  areas: { type: string; coords: string }[];
 
   constructor({
     containerEl,
     imgUrl,
+    areas,
   }: {
     containerEl: string;
     imgUrl: string;
+    areas: MapManager['areas'];
   }) {
     Konva.hitOnDragEnabled = true;
     this.stage = new Konva.Stage({
@@ -30,9 +33,12 @@ export class MapManager {
     });
     this.layer = new Konva.Layer();
     this.stage.add(this.layer);
+    this.stage.on('touchmove', this.handleTouchMove);
+    this.stage.on('touchend', this.handleTouchEnd);
     this.image = new Image();
     this.image.addEventListener('load', this.loadCanvasImage);
     this.image.src = imgUrl;
+    this.areas = areas;
   }
 
   loadCanvasImage = () => {
@@ -40,15 +46,44 @@ export class MapManager {
       x: 0,
       y: 0,
       width: this.image.naturalWidth,
-      height: this.image.naturalHeight,
+      height: this.image.naturalHeight - 64 * 2,
       image: this.image,
+    });
+    this.layerImg.crop({
+      x: 0,
+      y: 64,
+      height: this.image.naturalHeight - 64 * 2,
+      width: this.image.naturalWidth,
     });
     this.layer.add(this.layerImg);
 
     if (this.image.naturalWidth < window.innerWidth) {
       this.stage.width(this.image.naturalWidth);
     }
+
+    if (this.image.naturalWidth > window.innerWidth) {
+      const ratio = window.innerWidth / this.image.naturalWidth;
+      this.stage.getLayers()[0].scale({ x: ratio, y: ratio });
+    }
+
+    this.addShapes();
   };
+
+  addShapes() {
+    this.areas.forEach((area) => {
+      const poly = new Konva.Line({
+        points: area.coords.split(',').map((v) => Number(v)),
+        //   fill: '#00D2FF',
+        stroke: 'purple',
+
+        offsetY: 64,
+        strokeWidth: 5,
+        closed: true,
+      });
+
+      this.stage.getLayers()[0].add(poly);
+    });
+  }
 
   handleTouchMove = (e: KonvaEventObject<TouchEvent>) => {
     e.evt.preventDefault();
@@ -110,6 +145,11 @@ export class MapManager {
       this.lastDist = dist;
       this.lastCenter = newCenter;
     }
+  };
+
+  handleTouchEnd = (e: KonvaEventObject<TouchEvent>) => {
+    this.lastDist = 0;
+    this.lastCenter = null;
   };
 }
 
