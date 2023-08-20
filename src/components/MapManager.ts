@@ -70,9 +70,15 @@ export class MapManager {
       this.stage.height(imageHeight);
     }
 
+    let ratio = 1;
+
     if (this.image.naturalWidth > window.innerWidth) {
-      const ratio = window.innerWidth / this.image.naturalWidth;
+      ratio = window.innerWidth / this.image.naturalWidth;
       this.stage.getLayers()[0].scale({ x: ratio, y: ratio });
+    }
+
+    if (imageHeight * ratio < window.innerHeight) {
+      this.stage.height(imageHeight * ratio);
     }
 
     this.addShapes();
@@ -124,6 +130,10 @@ export class MapManager {
     var touch2 = e.evt.touches[1];
 
     const stage = this.stage;
+
+    if (stage.scaleX() <= 1) {
+      stage.stopDrag();
+    }
 
     if (touch1 && touch2) {
       // if the stage was under Konva's drag&drop

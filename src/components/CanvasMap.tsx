@@ -25,7 +25,9 @@ const CanvasMap = ({
     mapManager.current.onAreaClick = onCanvasClick;
   }, []);
 
-  return <div id="container" />;
+  return (
+    <div id="container" className="mt-4 mx-auto overflow-scroll cursor-move" />
+  );
 };
 
 export default CanvasMap;
