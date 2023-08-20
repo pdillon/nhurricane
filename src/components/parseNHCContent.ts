@@ -37,6 +37,7 @@ export async function parseNHCContent() {
       .map((s) => s.replace('...', '...\\n'))
       .map((s) => s.replaceAll('* ', '\\n'))
       .map((s) => s.replaceAll(' percent', '%'))
+      .map((s) => s.replaceAll(' (click for details)', ''))
       .map((s) => {
         return JSON.parse(s);
       }) as any[];
