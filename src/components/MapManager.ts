@@ -15,6 +15,7 @@ export class MapManager {
   lastCenter: null | Point = null;
   lastDist = 0;
   areas: Area[];
+  activeShape?: Konva.Shape;
   onAreaClick?: ({ id }: { id: number }) => void;
 
   constructor({
@@ -94,11 +95,7 @@ export class MapManager {
           closed: true,
         });
 
-        poly.on('tap click', (el) => {
-          if (this.onAreaClick) {
-            this.onAreaClick({ id: Number(el.target.id()) });
-          }
-        });
+        poly.on('tap click', this.handleShapeClick);
 
         this.layer.add(poly);
       }
@@ -108,21 +105,33 @@ export class MapManager {
           x: coords[0],
           y: coords[1],
           radius: coords[2],
-          //   stroke: 'purple',
+
           offsetY: 64,
-          //   strokeWidth: 5,
         });
 
-        circle.on('tap click', (el) => {
-          if (this.onAreaClick) {
-            this.onAreaClick({ id: Number(el.target.id()) });
-          }
-        });
+        circle.on('tap click', this.handleShapeClick);
 
         this.layer.add(circle);
       }
     });
   }
+
+  handleShapeClick = (e: KonvaEventObject<TouchEvent>) => {
+    if (this.activeShape) {
+      this.activeShape.fill('transparent');
+      this.activeShape.opacity(1);
+      this.activeShape.stroke('none');
+      this.activeShape.strokeWidth(0);
+    }
+    if (this.onAreaClick) {
+      this.activeShape = e.target as Konva.Shape;
+      this.activeShape.fill('#fff');
+      this.activeShape.opacity(0.3);
+      this.activeShape.stroke('yellow');
+      this.activeShape.strokeWidth(2);
+      this.onAreaClick({ id: Number(this.activeShape.id()) });
+    }
+  };
 
   handleTouchMove = (e: KonvaEventObject<TouchEvent>) => {
     e.evt.preventDefault();
