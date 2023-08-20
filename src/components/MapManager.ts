@@ -178,7 +178,7 @@ export class MapManager {
         y: (newCenter.y - stage.y()) / stage.scaleX(),
       };
 
-      var scale = stage.scaleX() * (dist / this.lastDist);
+      var scale = Math.max(stage.scaleX() * (dist / this.lastDist), 1);
 
       stage.scaleX(scale);
       stage.scaleY(scale);
@@ -188,8 +188,8 @@ export class MapManager {
       var dy = newCenter.y - this.lastCenter.y;
 
       var newPos = {
-        x: newCenter.x - pointTo.x * scale + dx,
-        y: newCenter.y - pointTo.y * scale + dy,
+        x: Math.min(newCenter.x - pointTo.x * scale + dx, 0),
+        y: Math.min(newCenter.y - pointTo.y * scale + dy, 0),
       };
 
       stage.position(newPos);

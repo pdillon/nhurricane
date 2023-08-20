@@ -7,8 +7,8 @@ const Home = async () => {
 
   return (
     <>
-      <div className={`flex flex-col items-top justify-top h-screen`}>
-        <div className={`text-center mt-4`}>
+      <div className={`flex flex-col items-top justify-top h-[85vh]`}>
+        <div className={`text-center mt-4 grow`}>
           <h1 className="text-2xl font-light mb-2">𝑛*hurricane</h1>
           <div className="text-sm">
             A remixed view of the Atlantic tropical outlooks from
@@ -24,7 +24,7 @@ const Home = async () => {
             imgSrc="https://www.nhc.noaa.gov/xgtwo/two_atl_7d0.png"
           />
         </div>
-        <div className="text-center text-xs font-xs mt-4 pb-4 flex-1 flex flex-col justify-end">
+        <div className="text-center text-xs font-xs pb-6 flex-col justify-end">
           Copyright © {new Date().getFullYear()} n*hurricane
         </div>
       </div>
