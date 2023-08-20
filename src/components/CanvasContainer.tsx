@@ -19,7 +19,7 @@ export const CanvasContainer = ({
 }) => {
   const [content, setContent] = React.useState<string[]>([]);
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col items-center">
       <CanvasMap
         onCanvasClick={({ id }) => {
           setContent(descriptions.find((d) => d.id === id)?.content || []);
