@@ -8,7 +8,14 @@ const Home = async () => {
   return (
     <div className={`flex items-top justify-center h-screen`}>
       <div className={`text-center mt-6`}>
-        <h1 className="text-2xl font-light mb-2">(𝑛)hurricane</h1>
+        <h1 className="text-2xl font-light mb-2">𝑛*hurricane</h1>
+        <div>
+          A remixed view of the Atlantic tropical outlooks from
+          <a className="ml-1" href="https://www.nhc.noaa.gov">
+            www.nhc.noaa.gov
+          </a>
+          .
+        </div>
 
         <CanvasContainer
           descriptions={response.descriptions}
