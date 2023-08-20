@@ -24,7 +24,7 @@ const Home = async () => {
             imgSrc="https://www.nhc.noaa.gov/xgtwo/two_atl_7d0.png"
           />
         </div>
-        <div className="text-center text-xs font-xs mt-4 pb-4 justify-self-end">
+        <div className="text-center text-xs font-xs mt-4 pb-4 flex-1 flex flex-col justify-end">
           Copyright © {new Date().getFullYear()} n*hurricane
         </div>
       </div>
