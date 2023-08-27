@@ -104,8 +104,8 @@ export class MapManager {
           id,
           x: coords[0],
           y: coords[1],
-          radius: coords[2],
-
+          radius: coords[2] + 2,
+          strokeEnabled: true,
           offsetY: 64,
         });
 
@@ -127,7 +127,7 @@ export class MapManager {
       this.activeShape = e.target as Konva.Shape;
       this.activeShape.fill('#fff');
       this.activeShape.opacity(0.3);
-      this.activeShape.stroke('yellow');
+      this.activeShape.stroke('black');
       this.activeShape.strokeWidth(2);
       this.onAreaClick({ id: Number(this.activeShape.id()) });
     }

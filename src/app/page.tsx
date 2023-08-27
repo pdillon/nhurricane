@@ -1,9 +1,11 @@
 import React from 'react';
 import { CanvasContainer } from '@/components/CanvasContainer';
 import { parseNHCContent } from '@/components/parseNHCContent';
+import { parseATIndex } from '@/components/parseATIndex';
 
 const Home = async () => {
   const response = await parseNHCContent();
+  const { trackImgs } = await parseATIndex();
 
   return (
     <>
@@ -21,10 +23,11 @@ const Home = async () => {
           <CanvasContainer
             descriptions={response.descriptions}
             areas={response.areas}
+            trackImgs={trackImgs}
             imgSrc="https://www.nhc.noaa.gov/xgtwo/two_atl_7d0.png"
           />
         </div>
-        <div className="text-center text-xs font-xs pb-6 flex-col justify-end">
+        <div className="text-center text-xs mt-4 font-xs pb-6 flex-col justify-end">
           Copyright © {new Date().getFullYear()} n*hurricane
         </div>
       </div>

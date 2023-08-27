@@ -1,5 +1,5 @@
 import { parse } from 'node-html-parser';
-import { DateTime } from 'luxon';
+import { getCacheTime } from '@/helpers/getCacheTime';
 import type { ContentResponse } from '@/types/ContentResponse';
 
 export async function parseNHCContent() {
@@ -55,9 +55,4 @@ export async function parseNHCContent() {
   }) as ContentResponse['areas'];
 
   return { descriptions, areas } as ContentResponse;
-}
-
-function getCacheTime() {
-  const currentTime = DateTime.local().setZone('America/New_York');
-  return Math.max(60 - (currentTime.minute + 2), 1) * 60;
 }
