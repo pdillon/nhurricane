@@ -50,7 +50,9 @@ export async function parseNHCContent() {
       coords: a
         .getAttribute('coords')
         ?.split(',')
-        .map((v) => Number(v)),
+        .map((v) => {
+          return Number(v.replace(/[^0-9]/g, ''));
+        }),
     };
   }) as ContentResponse['areas'];
 

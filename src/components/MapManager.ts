@@ -86,34 +86,38 @@ export class MapManager {
   };
 
   addShapes() {
-    this.areas.forEach(({ id, shape, coords }) => {
-      if (shape === 'poly') {
-        const poly = new Konva.Line({
-          id,
-          points: coords,
-          offsetY: 64,
-          closed: true,
-        });
+    this.areas
+      .sort((a, b) => {
+        return a.shape === 'circle' ? 1 : -1;
+      })
+      .forEach(({ id, shape, coords }) => {
+        if (shape === 'poly') {
+          const poly = new Konva.Line({
+            id,
+            points: coords,
+            offsetY: 64,
+            closed: true,
+          });
 
-        poly.on('tap click', this.handleShapeClick);
+          poly.on('tap click', this.handleShapeClick);
 
-        this.layer.add(poly);
-      }
-      if (shape === 'circle') {
-        const circle = new Konva.Circle({
-          id,
-          x: coords[0],
-          y: coords[1],
-          radius: coords[2] + 2,
-          strokeEnabled: true,
-          offsetY: 64,
-        });
+          this.layer.add(poly);
+        }
+        if (shape === 'circle') {
+          const circle = new Konva.Circle({
+            id,
+            x: coords[0],
+            y: coords[1],
+            radius: coords[2] + 2,
+            strokeEnabled: true,
+            offsetY: 64,
+          });
 
-        circle.on('tap click', this.handleShapeClick);
+          circle.on('tap click', this.handleShapeClick);
 
-        this.layer.add(circle);
-      }
-    });
+          this.layer.add(circle);
+        }
+      });
   }
 
   handleShapeClick = (e: KonvaEventObject<TouchEvent>) => {
