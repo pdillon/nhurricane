@@ -1,13 +1,11 @@
 import { parse } from 'node-html-parser';
-import { getCacheDate } from '@/helpers/getCacheTime';
+
 import type { ContentResponse } from '@/types/ContentResponse';
 
-export async function parseNHCContent() {
-  const cacheDate = getCacheDate();
-  console.log({ cacheDate });
+export async function parseNHCContent(cacheTS: number) {
   const res = await fetch(
-    'https://www.nhc.noaa.gov/gtwo.php?basin=atlc&fdays=7&_date=' + cacheDate,
-    { next: { tags: [getCacheDate()] } },
+    `https://www.nhc.noaa.gov/gtwo.php?basin=atlc&fdays=7&tid=${cacheTS}`,
+    { method: 'GET' },
   );
 
   if (!res.ok) {

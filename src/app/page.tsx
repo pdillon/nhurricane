@@ -2,10 +2,11 @@ import React from 'react';
 import { CanvasContainer } from '@/components/CanvasContainer';
 import { parseNHCContent } from '@/components/parseNHCContent';
 import { parseATIndex } from '@/components/parseATIndex';
+import { getCacheDate } from '@/helpers/getCacheTime';
 
 const Home = async () => {
-  const response = await parseNHCContent();
-  const { trackImgs } = await parseATIndex();
+  const response = await parseNHCContent(getCacheDate());
+  const { trackImgs } = await parseATIndex(getCacheDate());
 
   return (
     <>

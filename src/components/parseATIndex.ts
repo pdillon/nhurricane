@@ -2,12 +2,10 @@ import { parse } from 'node-html-parser';
 import { getCacheDate } from '@/helpers/getCacheTime';
 import { TrackImg } from '@/types/TrackImg';
 
-export async function parseATIndex() {
+export async function parseATIndex(cacheTS: number) {
   const res = await fetch(
-    'https://www.nhc.noaa.gov/index-at.xml?_date=' + getCacheDate(),
-    {
-      next: { tags: [getCacheDate()] },
-    },
+    `https://www.nhc.noaa.gov/index-at.xml?&tid=${cacheTS}`,
+    { method: 'GET' },
   );
 
   if (!res.ok) {
