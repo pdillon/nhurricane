@@ -13,7 +13,7 @@ const Home = async () => {
         <div className={`text-center mt-4 grow`}>
           <h1 className="text-2xl font-light mb-2">𝑛*hurricane</h1>
           <div className="text-sm">
-            A remixed view of the Atlantic tropical outlooks from
+            A mobile friendly view of Atlantic tropical outlooks from
             <a className="ml-1 underline" href="https://www.nhc.noaa.gov">
               www.nhc.noaa.gov
             </a>
@@ -28,16 +28,16 @@ const Home = async () => {
           />
         </div>
         <div className="text-center text-xs mt-4 font-xs pb-6 flex-col justify-end">
-          All data and images are credited to NOAA/NWS.
+          All text, data and images are courtesy of NOAA/NWS.
           <br />
-          Please visit{' '}
+          Please visit
           <a className="ml-1 underline" href="https://www.nhc.noaa.gov">
             www.nhc.noaa.gov
           </a>{' '}
           for official information.
         </div>
         <div className="text-center text-xs mt-4 font-xs pb-6 flex-col justify-end">
-          Site design copyright © {new Date().getFullYear()} n*hurricane
+          Site Design Copyright © {new Date().getFullYear()} n*hurricane
         </div>
       </div>
     </>
