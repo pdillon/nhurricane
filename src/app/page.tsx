@@ -28,7 +28,16 @@ const Home = async () => {
           />
         </div>
         <div className="text-center text-xs mt-4 font-xs pb-6 flex-col justify-end">
-          Copyright © {new Date().getFullYear()} n*hurricane
+          All data and images are credited to NOAA/NWS.
+          <br />
+          Please visit{' '}
+          <a className="ml-1 underline" href="https://www.nhc.noaa.gov">
+            www.nhc.noaa.gov
+          </a>{' '}
+          for official information.
+        </div>
+        <div className="text-center text-xs mt-4 font-xs pb-6 flex-col justify-end">
+          Site design copyright © {new Date().getFullYear()} n*hurricane
         </div>
       </div>
     </>
