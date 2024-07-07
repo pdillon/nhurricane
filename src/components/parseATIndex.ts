@@ -5,7 +5,7 @@ import { TrackImg } from '@/types/TrackImg';
 export async function parseATIndex(cacheTS: number) {
   const res = await fetch(
     `https://www.nhc.noaa.gov/index-at.xml?&tid=${cacheTS}`,
-    { method: 'GET' },
+    { method: 'GET', cache: 'no-store' },
   );
 
   if (!res.ok) {

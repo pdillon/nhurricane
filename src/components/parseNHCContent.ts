@@ -5,7 +5,7 @@ import type { ContentResponse } from '@/types/ContentResponse';
 export async function parseNHCContent(cacheTS: number) {
   const res = await fetch(
     `https://www.nhc.noaa.gov/gtwo.php?basin=atlc&fdays=7&tid=${cacheTS}`,
-    { method: 'GET' },
+    { method: 'GET', cache: 'no-store' },
   );
 
   if (!res.ok) {
