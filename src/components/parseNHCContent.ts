@@ -29,9 +29,10 @@ export async function parseNHCContent(cacheTS: number) {
       ?.map((s) =>
         s.replace(/Text\[([0-9])\]=/, (_, v) => `{"id":${v},"content":`),
       )
+      .map((s) => s.replace(/\(Advisory # [^)]*\)/, (v) => `${v}\\n`))
       .map((s) => `${s}}`)
       .map((s) => s.replace(/'/g, '"'))
-      .map((s) => s.replace(/<(\/)?b>/g, ''))
+      .map((s) => s.replace(/<(\/)?b>/g, '')) // Remove <b> and </b>
       .map((s) => s.replace(/ <br>/g, ' '))
       .map((s) => s.replace(/<br>/g, '\\n'))
       .map((s) => s.replace('...', '...\\n'))

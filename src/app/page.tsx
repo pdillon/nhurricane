@@ -16,7 +16,7 @@ const Home = async () => {
           <div className="text-sm">
             A mobile friendly view of Atlantic tropical outlooks from
             <a className="ml-1 underline" href="https://www.nhc.noaa.gov">
-              www.nhc.noaa.gov
+              nhc.noaa.gov
             </a>
             .
           </div>
@@ -33,12 +33,12 @@ const Home = async () => {
           <br />
           Please visit
           <a className="ml-1 underline" href="https://www.nhc.noaa.gov">
-            www.nhc.noaa.gov
+            nhc.noaa.gov
           </a>{' '}
           for official information.
         </div>
         <div className="text-center text-xs mt-4 font-xs pb-6 flex-col justify-end">
-          Site Design Copyright © {new Date().getFullYear()} n*hurricane
+          Site design © {new Date().getFullYear()} n*hurricane
         </div>
       </div>
     </>
